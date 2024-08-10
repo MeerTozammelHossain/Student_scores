@@ -1,0 +1,45 @@
+# Load the necessary libraries
+library(curl)
+library(openxlsx)
+
+# Define the URL of the dataset and the local file path for the CSV
+url <- "https://raw.githubusercontent.com/AdiPersonalWorks/Random/master/student_scores%20-%20student_scores.csv"
+csv_destfile <- "E:/sparks/student_scores.csv"
+
+# Download the CSV file
+curl_download(url = url, destfile = csv_destfile)
+
+# Read the CSV file into a dataframe
+student_data <- read.csv(csv_destfile)
+
+# Define the destination path for the Excel file
+excel_destfile <- "E:/sparks/student_scores.xlsx"
+
+# Write the dataframe to an Excel file
+write.xlsx(student_data, excel_destfile)
+
+# Confirm completion of the conversion process
+cat("File successfully converted to", excel_destfile)
+
+# Calculate the correlation between Hours and Scores
+correlation <- cor(student_data$Hours, student_data$Scores)
+cat("Correlation between Hours and Scores:", correlation, "\n")
+
+# Scatter plot of Hours vs. Scores
+plot(student_data$Hours, student_data$Scores,
+     main = "Study Hours vs. Scores",
+     xlab = "Hours Studied",
+     ylab = "Scores Obtained",
+     pch = 16, col = "blue")
+
+
+# Fit a linear regression model
+model <- lm(Scores ~ Hours, data = student_data)
+
+# Display the summary of the model
+summary(model)
+
+# Predict the score for a specific number of study hours
+# For example, predict the score for 9.25 hours of study
+predicted_score <- predict(model, data.frame(Hours = 9.25))
+cat("Predicted score for 9.25 hours of study a day:", predicted_score, "\n")
