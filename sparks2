@@ -1,0 +1,19 @@
+install.packages("ggplot2")
+install.packages("cluster")
+install.packages("factoextra")
+# Load necessary libraries
+library(ggplot2)
+library(cluster)
+library(factoextra)
+
+# Load the Iris dataset
+df <- read.csv('E:/sparks/Iris.csv')
+
+# Standardize the features
+features <- scale(df[, 2:5])
+features 
+
+# Use the elbow method to find the optimal number of clusters
+fviz_nbclust(features, kmeans, method = 'wss') +
+  geom_vline(xintercept = 3, linetype = 2) +
+  labs(subtitle = 'Elbow method')
