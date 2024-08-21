@@ -25,6 +25,13 @@ cat("File successfully converted to", excel_destfile)
 correlation <- cor(student_data$Hours, student_data$Scores)
 cat("Correlation between Hours and Scores:", correlation, "\n")
 
+
+# Fit a linear regression model
+model <- lm(Scores ~ Hours, data = student_data)
+
+# Display the summary of the model
+summary(model)
+
 # Scatter plot of Hours vs. Scores
 plot(student_data$Hours, student_data$Scores,
      main = "Study Hours vs. Scores",
@@ -32,12 +39,8 @@ plot(student_data$Hours, student_data$Scores,
      ylab = "Scores Obtained",
      pch = 16, col = "blue")
 
-
-# Fit a linear regression model
-model <- lm(Scores ~ Hours, data = student_data)
-
-# Display the summary of the model
-summary(model)
+# Add the regression line to the plot 
+abline(model, col = "red", lwd = 2)
 
 # Predict the score for a specific number of study hours
 # For example, predict the score for 9.25 hours of study
